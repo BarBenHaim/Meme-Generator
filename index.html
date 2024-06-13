@@ -1,0 +1,44 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="css/main.css" />
+        <script defer src="https://kit.fontawesome.com/0d3f998bf1.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body onload="onInit()">
+        <nav>
+            <a href="" onclick="onRenderGallery()">Gallery</a>
+            <a href="" onclick="onRenderMemeEditor(event)">Meme editor</a>
+        </nav>
+        <h1>Meme Generator!</h1>
+        <section class="imgs-gallery"></section>
+        <section class="meme-editor-container">
+            <div class="canvas-container">
+                <canvas width="400" height="400"></canvas>
+            </div>
+            <div class="toolbar-container">
+                <input type="text" value="" oninput="onSetLineTxt(this.value)" />
+                <input type="color" oninput="onSetFontColor(this.value)" />
+                <button onclick="onSizeChange(1)">+</button>
+                <button onclick="onSizeChange(-1)">-</button>
+                <select onchange="onFontChange(this.value)">
+                    <option value="Arial">Arial</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                </select>
+                <button onclick="onAddTextLine()">Add text</button>
+                <button onclick="onSwitchTextLine()">Switch text</button>
+            </div>
+            <a href="#" class="btn" onclick="onDownloadImg(this)" download="my-meme.jpg">Download as jpeg</a>
+        </section>
+        <script src="js/service/util.service.js"></script>
+        <script src="js/service/memeService.js"></script>
+        <script src="js/galleryController.js"></script>
+        <script src="js/canvas.js"></script>
+        <script src="js/memeController.js"></script>
+    </body>
+</html>
