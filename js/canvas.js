@@ -1,20 +1,24 @@
+const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
+
 let gElCanvas
 let gCtx
 let gStartPos
-const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
+let gIsDragging = false
+let gIsResizing = false
 
 function renderCanvas() {
-    gCtx.fillStyle = 'grey'
+    gCtx.fillStyle = '#383b42'
     gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
 }
 
 function addListeners() {
     addMouseListeners()
     addTouchListeners()
-    window.addEventListener('resize', () => {
-        resizeCanvas()
-        renderCanvas()
-    })
+    // window.addEventListener('resize', () => {
+    //     resizeCanvas()
+    //     renderCanvas()
+    //     renderMeme()
+    // })
 }
 
 function addMouseListeners() {
@@ -58,25 +62,240 @@ function getEvPos(ev) {
     return pos
 }
 
-function drawText(text, x, y, size, fontColor, fontFamily) {
-    const fontFam = fontFamily || 'Ariel'
-    gCtx.lineWidth = 2
-    gCtx.strokeStyle = fontColor || 'black'
-    gCtx.font = `${size}px ${fontFam}`
+function onDragStart(ev) {
+    ev.dataTransfer.setData('text/plain', ev.target.innerText)
+}
 
-    gCtx.textAlign = 'center'
+function onDragOver(ev) {
+    ev.preventDefault()
+}
+
+function onDrop(ev) {
+    ev.preventDefault()
+    const data = ev.dataTransfer.getData('text/plain')
+    if (data) {
+        const pos = getEvPos(ev)
+        addTextLineAtPos(pos.x, pos.y, data)
+        renderMeme()
+    }
+}
+
+function addTextLineAtPos(x, y, text) {
+    const newTextLine = _createTextLine(40, x, y, text)
+    gMeme.lines.push(newTextLine)
+    gMeme.selectedLineIdx = gMeme.lines.length - 1
+}
+
+function drawWrappedTextWithBorder(text, x, y, size, fontColor, strokeColor, fontFamily, align, drawBorder = false) {
+    const fontFam = fontFamily || 'Impact'
+    gCtx.lineWidth = 2
+    gCtx.strokeStyle = strokeColor || 'black'
+    gCtx.fillStyle = fontColor || 'black'
+    gCtx.font = `${size}px ${fontFam}`
+    gCtx.textAlign = align
+
+    const maxWidth = gElCanvas.width
+    const lineHeight = size * 1.2
+    const words = text.split(' ')
+    let line = ''
+    let currentY = y
+    const lines = []
+
+    for (let n = 0; n < words.length; n++) {
+        let testLine = line + words[n] + ' '
+        let testWidth = gCtx.measureText(testLine).width
+        if (testWidth > maxWidth && n > 0) {
+            lines.push({ text: line, x, y: currentY })
+            line = words[n] + ' '
+            currentY += lineHeight
+        } else {
+            line = testLine
+        }
+    }
+
+    lines.push({ text: line, x, y: currentY })
+
+    lines.forEach(l => {
+        drawText(l.text, x, l.y)
+        if (drawBorder) {
+            const lineWidth = gCtx.measureText(l.text).width
+            let adjustedX
+            if (align === 'center') {
+                adjustedX = x - lineWidth / 2
+            } else if (align === 'right') {
+                adjustedX = x - lineWidth
+            } else {
+                adjustedX = x
+            }
+            gCtx.save()
+            gCtx.strokeStyle = 'lightgrey'
+            gCtx.fillStyle = 'rgba(200, 200, 200, 0.2)'
+            gCtx.lineWidth = 2
+            gCtx.strokeRect(adjustedX, l.y - size, lineWidth, lineHeight)
+            gCtx.fillRect(adjustedX, l.y - size, lineWidth, lineHeight)
+            gCtx.restore()
+        }
+    })
+}
+
+function drawText(text, x, y) {
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
 }
 
-function drawTextBorder(text, x, y, size) {
-    const metrics = gCtx.measureText(text)
-    const textWidth = metrics.width
-    const textHeight = size
+function isLineClicked(clickedPos) {
+    const meme = getMeme()
+    const memeLines = meme.lines
+    let clickedLineIdx = -1
 
-    gCtx.save()
-    gCtx.strokeStyle = 'blue'
-    gCtx.lineWidth = 2
-    gCtx.strokeRect(x - textWidth / 2 - 5, y - textHeight, textWidth + 10, textHeight + 5)
-    gCtx.restore()
+    memeLines.forEach((line, idx) => {
+        const { x, y, size, txt, align } = line
+        const lineHeight = size * 1.2
+        const words = txt.split(' ')
+
+        let testLine = ''
+        let currentY = y
+
+        for (let n = 0; n < words.length; n++) {
+            let testWidth = gCtx.measureText(testLine + words[n] + ' ').width
+            if (testWidth > gElCanvas.width && n > 0) {
+                currentY += lineHeight
+                testLine = words[n] + ' '
+            } else {
+                testLine += words[n] + ' '
+            }
+
+            const textWidth = gCtx.measureText(testLine).width
+            let adjustedX
+            if (align === 'center') {
+                adjustedX = x - textWidth / 2
+            } else if (align === 'right') {
+                adjustedX = x - textWidth
+            } else {
+                adjustedX = x
+            }
+
+            if (
+                clickedPos.x >= adjustedX &&
+                clickedPos.x <= adjustedX + textWidth &&
+                clickedPos.y >= currentY - size &&
+                clickedPos.y <= currentY
+            ) {
+                clickedLineIdx = idx
+                break
+            }
+        }
+    })
+
+    if (clickedLineIdx === -1) {
+        meme.selectedLineIdx = -1
+        renderMeme()
+        return false
+    }
+
+    setSelectedLineIdx(clickedLineIdx)
+    const selectedLine = memeLines[clickedLineIdx]
+    if (selectedLine) {
+        document.querySelector('input[type=text]').value = selectedLine.txt
+        updateFields(
+            selectedLine.txt,
+            selectedLine.size,
+            selectedLine.font,
+            selectedLine.fontColor,
+            selectedLine.strokeColor
+        )
+    }
+    handleTextClick(selectedLine)
+
+    renderMeme()
+    return clickedLineIdx !== -1
+}
+
+function onDown(ev) {
+    const pos = getEvPos(ev)
+    if (isResizerClicked(pos)) {
+        gStartPos = pos
+        gIsResizing = true
+        document.body.style.cursor = 'nwse-resize'
+    } else if (isLineClicked(pos)) {
+        gStartPos = pos
+        gIsDragging = true
+        document.body.style.cursor = 'grabbing'
+    }
+}
+
+function onMove(ev) {
+    const pos = getEvPos(ev)
+    if (gIsDragging) {
+        const dx = pos.x - gStartPos.x
+        const dy = pos.y - gStartPos.y
+        moveLine(dx, dy)
+        gStartPos = pos
+        renderMeme()
+    } else if (gIsResizing) {
+        const dx = pos.x - gStartPos.x
+        const dy = pos.y - gStartPos.y
+        resizeLine(dx, dy)
+        gStartPos = pos
+        renderMeme()
+    } else {
+        isResizerClicked(pos)
+    }
+}
+
+function onUp() {
+    gIsDragging = false
+    gIsResizing = false
+    document.body.style.cursor = 'default'
+}
+
+function moveLine(dx, dy) {
+    const line = getSelectedLine()
+    if (!line) return
+    line.x += dx
+    line.y += dy
+}
+
+function resizeLine(dy) {
+    const line = getSelectedLine()
+    if (!line) return
+    line.size += dy / 5
+    if (line.size < 10) line.size = 10
+}
+
+function getSelectedLine() {
+    const selectedLineIdx = gMeme.selectedLineIdx
+    return gMeme.lines[selectedLineIdx]
+}
+
+function isResizerClicked(clickedPos) {
+    const line = getSelectedLine()
+    if (!line) return false
+    const { x, y, size, txt, align } = line
+    const lineHeight = size * 1.2
+    const textWidth = gCtx.measureText(txt).width
+    let startX = align === 'left' ? 0 : align === 'center' ? gElCanvas.width / 2 : gElCanvas.width
+    let adjustedX = align === 'center' ? startX - textWidth / 2 : align === 'right' ? startX - textWidth : startX
+
+    const resizeArea = 10
+
+    if (
+        clickedPos.x >= adjustedX + textWidth - resizeArea &&
+        clickedPos.x <= adjustedX + textWidth + resizeArea &&
+        clickedPos.y >= y - size - resizeArea &&
+        clickedPos.y <= y - size + resizeArea
+    ) {
+        if (!gIsResizing) {
+            document.body.style.cursor = 'nwse-resize'
+        }
+        return true
+    }
+    if (!gIsResizing) {
+        document.body.style.cursor = 'default'
+    }
+    return false
+}
+
+function setSelectedLineIdx(idx) {
+    gMeme.selectedLineIdx = idx
 }

@@ -1,0 +1,180 @@
+.meme-editor-container {
+    display: grid;
+    place-content: center;
+    gap: 30px;
+    background-color: #22252c;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px 0;
+}
+
+canvas {
+    border: 1px solid #000;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 10px;
+}
+
+.actions-container {
+    display: flex;
+    gap: 5px;
+    margin: 5px;
+}
+
+.toolbar-container {
+    background-color: #383b42;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+input[type='text'] {
+    font-size: 1em;
+    border: none;
+    text-align: center;
+    border-radius: 50px;
+    box-shadow: inset 0px -3px 7px #292828;
+}
+
+input[type='color'] {
+    border: none;
+    background: none;
+    width: 100px;
+}
+
+input[type='file'] {
+    display: none;
+}
+
+input[type='number'] {
+    padding: 0;
+    width: 7em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 1em;
+    text-align: center;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type='number']:focus {
+    border-color: #14993c;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+select {
+    font-size: 1.1em;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+.draggable-text {
+    color: white;
+}
+
+.emogies-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 1.4em;
+    opacity: 0.7;
+    border: 1px solid rgb(109, 109, 109);
+}
+
+.icon {
+    font-size: 1em;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 1px 2px 7px 0px #000000;
+}
+
+.text-tools {
+    display: flex;
+    background-color: #19a59f;
+    flex-wrap: wrap;
+    border-radius: 10px;
+}
+
+.btn-increase-font,
+.btn-decrease-font {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px 0px #000000;
+}
+
+.btn-clear-canvas {
+    background: none;
+    border: none;
+    color: white;
+}
+
+.btn-delete-line {
+    background-color: #e33c36;
+}
+
+.btn-switch-line {
+    background-color: #2ba7c6;
+}
+
+.basic-tools-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-actions-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    gap: 5px;
+    border-radius: 5px;
+    padding: 4px 10px;
+    cursor: pointer;
+    background-color: #4a6aad;
+    color: #ffffff;
+    transition: opacity 0.4s;
+    width: 7.5em;
+}
+
+.btn-action:hover {
+    opacity: 0.9;
+}
+
+.btn-action.btn-share {
+    background-color: #1e7cd3;
+}
+.btn-action.btn-download {
+    background-color: #8f44bb;
+}
+
+.btn-save {
+    display: inline;
+}

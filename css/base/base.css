@@ -1,0 +1,26 @@
+* {
+    box-sizing: border-box;
+    font-family: poppins;
+}
+
+body {
+    background-color: RGBA(56, 59, 66, 1);
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+button,
+a,
+.icon {
+    cursor: pointer;
+    transition: opacity 0.4s;
+}
+
+button:hover,
+a:hover,
+.icon:hover {
+    opacity: 0.85;
+}
