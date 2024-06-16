@@ -1,5 +1,7 @@
 'use strict'
 
+let currentLang = 'en'
+
 const translations = {
     en: {
         title: 'Meme Generator',
@@ -57,8 +59,6 @@ const translations = {
         'saved-memes': 'ממים שמורים',
     },
 }
-
-let currentLang = 'en'
 
 function setLang(lang) {
     currentLang = lang

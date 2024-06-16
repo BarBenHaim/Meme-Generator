@@ -153,8 +153,8 @@ function isLineClicked(clickedPos) {
         const lineHeight = size * 1.2
         const words = txt.split(' ')
 
-        let testLine = ''
         let currentY = y
+        let testLine = ''
 
         for (let n = 0; n < words.length; n++) {
             let testWidth = gCtx.measureText(testLine + words[n] + ' ').width
@@ -195,20 +195,18 @@ function isLineClicked(clickedPos) {
 
     setSelectedLineIdx(clickedLineIdx)
     const selectedLine = memeLines[clickedLineIdx]
-    if (selectedLine) {
-        document.querySelector('input[type=text]').value = selectedLine.txt
-        updateFields(
-            selectedLine.txt,
-            selectedLine.size,
-            selectedLine.font,
-            selectedLine.fontColor,
-            selectedLine.strokeColor
-        )
-    }
+    document.querySelector('input[type=text]').value = selectedLine.txt
+    updateFields(
+        selectedLine.txt,
+        selectedLine.size,
+        selectedLine.font,
+        selectedLine.fontColor,
+        selectedLine.strokeColor
+    )
     handleTextClick(selectedLine)
 
     renderMeme()
-    return clickedLineIdx !== -1
+    return true
 }
 
 function onDown(ev) {
@@ -271,28 +269,44 @@ function getSelectedLine() {
 function isResizerClicked(clickedPos) {
     const line = getSelectedLine()
     if (!line) return false
+
     const { x, y, size, txt, align } = line
-    const lineHeight = size * 1.2
     const textWidth = gCtx.measureText(txt).width
-    let startX = align === 'left' ? 0 : align === 'center' ? gElCanvas.width / 2 : gElCanvas.width
-    let adjustedX = align === 'center' ? startX - textWidth / 2 : align === 'right' ? startX - textWidth : startX
 
-    const resizeArea = 10
+    let adjustedX
+    if (align === 'center') {
+        adjustedX = x - textWidth / 2
+    } else if (align === 'right') {
+        adjustedX = x - textWidth
+    } else {
+        adjustedX = x
+    }
 
-    if (
-        clickedPos.x >= adjustedX + textWidth - resizeArea &&
-        clickedPos.x <= adjustedX + textWidth + resizeArea &&
-        clickedPos.y >= y - size - resizeArea &&
-        clickedPos.y <= y - size + resizeArea
-    ) {
+    const resizeRadius = 5
+
+    gCtx.save()
+    gCtx.fillStyle = 'rgba(0, 0, 100, 0.2)'
+    gCtx.strokeStyle = 'rgba(255, 255, 255, 1)'
+    gCtx.lineWidth = 1
+    gCtx.beginPath()
+    gCtx.arc(adjustedX + textWidth + resizeRadius, y - size / 2, resizeRadius, 0, 2 * Math.PI)
+    gCtx.fill()
+    gCtx.stroke()
+    gCtx.restore()
+
+    const dx = clickedPos.x - (adjustedX + textWidth + resizeRadius)
+    const dy = clickedPos.y - (y - size / 2)
+    if (Math.sqrt(dx * dx + dy * dy) <= resizeRadius) {
         if (!gIsResizing) {
             document.body.style.cursor = 'nwse-resize'
         }
         return true
     }
+
     if (!gIsResizing) {
         document.body.style.cursor = 'default'
     }
+
     return false
 }
 

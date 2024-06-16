@@ -40,7 +40,7 @@ function createNewMeme(selectedImgId = 1) {
         selectedImgURL: null,
         selectedImgId: selectedImgId,
         selectedLineIdx: 0,
-        lines: [_createTextLine(40, 200, 50), _createTextLine(40, 200, 375)],
+        lines: [_createTextLine(50, 200, 50), _createTextLine(40, 200, 375)],
     }
 }
 

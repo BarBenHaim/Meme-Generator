@@ -27,6 +27,7 @@ function renderMeme() {
     const meme = getMeme()
     const imgs = getMemeImgs()
     const memeLines = meme.lines
+
     const selectedLineIdx = meme.selectedLineIdx
 
     let imgUrl = null
