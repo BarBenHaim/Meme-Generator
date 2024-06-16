@@ -1,14 +1,14 @@
 @font-face {
     font-family: poppins;
-    src: url('/fonts/Poppins/Poppins-Medium.ttf');
+    src: url('../../fonts/Poppins/Poppins-Medium.ttf');
 }
 
 @font-face {
     font-family: tiny;
-    src: url('/fonts/Tiny5/Tiny5-Regular.ttf');
+    src: url('../../fonts/Tiny5/Tiny5-Regular.ttf');
 }
 
 @font-face {
     font-family: playwrite;
-    src: url('/fonts/Playwrite_CO/PlaywriteCO-VariableFont_wght.ttf');
+    src: url('../../fonts/Playwrite_CO/PlaywriteCO-VariableFont_wght.ttf');
 }

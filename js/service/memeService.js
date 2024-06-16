@@ -1,35 +1,33 @@
 'use strict'
-
 const gImgs = [
-    { id: 1, url: 'img-hard/1.jpg', keywords: ['funny', 'cat', 'smile'] },
-    { id: 2, url: 'img-hard/2.jpg', keywords: ['funny', 'cat', 'smile'] },
-    { id: 3, url: 'img-hard/3.jpg', keywords: ['funny', 'cat', 'smile'] },
-    { id: 4, url: 'img-hard/4.jpg', keywords: ['weird', 'cat', 'baby'] },
-    { id: 5, url: 'img-hard/5.jpg', keywords: ['funny', 'cat', 'animal'] },
-    { id: 6, url: 'img-hard/6.jpg', keywords: ['weird', 'cat', 'animal'] },
-    { id: 7, url: 'img-hard/7.jpg', keywords: ['funny', 'baby', 'weird'] },
-    { id: 8, url: 'img-hard/8.jpg', keywords: ['funny', 'cat', 'animal'] },
-    { id: 9, url: 'img-hard/9.jpg', keywords: ['funny', 'cat', 'smile'] },
-    { id: 10, url: 'img-hard/10.jpg', keywords: ['funny', 'weird'] },
-    { id: 11, url: 'img-hard/11.jpg', keywords: ['funny', 'cat', 'animal'] },
-    { id: 12, url: 'img-hard/12.jpg', keywords: ['funny', 'cat', 'animal'] },
-    { id: 13, url: 'img-hard/13.jpg', keywords: ['funny', 'weird', 'cat'] },
-    { id: 14, url: 'img-hard/14.jpg', keywords: ['funny', 'cat', 'animal'] },
-    { id: 15, url: 'img-hard/15.jpg', keywords: ['funny', 'cat', 'weird'] },
-    { id: 16, url: 'img-hard/16.jpg', keywords: ['funny', 'cat', 'animal'] },
-    { id: 17, url: 'img-hard/17.jpg', keywords: ['baby', 'cat', 'funny'] },
-    { id: 18, url: 'img-hard/18.jpg', keywords: ['baby', 'animal', 'smile'] },
-    { id: 19, url: 'img-hard/19.jpg', keywords: ['animal', 'cat', 'smile'] },
-    { id: 20, url: 'img-hard/20.jpg', keywords: ['baby', 'cat', 'animal'] },
-    { id: 21, url: 'img-hard/21.jpg', keywords: ['baby', 'cat'] },
-    { id: 22, url: 'img-hard/22.jpg', keywords: ['baby', 'cat'] },
-    { id: 23, url: 'img-hard/23.jpg', keywords: ['baby', 'cat'] },
-    { id: 24, url: 'img-hard/24.jpg', keywords: ['baby', 'cat'] },
-    { id: 25, url: 'img-hard/25.jpg', keywords: ['baby', 'cat'] },
+    { id: 1, url: 'meme-img/1.jpg', keywords: ['funny', 'cat', 'smile'] },
+    { id: 2, url: 'meme-img/2.jpg', keywords: ['funny', 'cat', 'smile'] },
+    { id: 3, url: 'meme-img/3.jpg', keywords: ['funny', 'cat', 'smile'] },
+    { id: 4, url: 'meme-img/4.jpg', keywords: ['weird', 'cat', 'baby'] },
+    { id: 5, url: 'meme-img/5.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 6, url: 'meme-img/6.jpg', keywords: ['weird', 'cat', 'animal'] },
+    { id: 7, url: 'meme-img/7.jpg', keywords: ['funny', 'baby', 'weird'] },
+    { id: 8, url: 'meme-img/8.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 9, url: 'meme-img/9.jpg', keywords: ['funny', 'cat', 'smile'] },
+    { id: 10, url: 'meme-img/10.jpg', keywords: ['funny', 'weird'] },
+    { id: 11, url: 'meme-img/11.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 12, url: 'meme-img/12.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 13, url: 'meme-img/13.jpg', keywords: ['funny', 'weird', 'cat'] },
+    { id: 14, url: 'meme-img/14.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 15, url: 'meme-img/15.jpg', keywords: ['funny', 'cat', 'weird'] },
+    { id: 16, url: 'meme-img/16.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 17, url: 'meme-img/17.jpg', keywords: ['baby', 'cat', 'funny'] },
+    { id: 18, url: 'meme-img/18.jpg', keywords: ['baby', 'animal', 'smile'] },
+    { id: 19, url: 'meme-img/19.jpg', keywords: ['animal', 'cat', 'smile'] },
+    { id: 20, url: 'meme-img/20.jpg', keywords: ['baby', 'cat', 'animal'] },
+    { id: 21, url: 'meme-img/21.jpg', keywords: ['baby', 'cat'] },
+    { id: 22, url: 'meme-img/22.jpg', keywords: ['baby', 'cat'] },
+    { id: 23, url: 'meme-img/23.jpg', keywords: ['baby', 'cat'] },
+    { id: 24, url: 'meme-img/24.jpg', keywords: ['baby', 'cat'] },
+    { id: 25, url: 'meme-img/25.jpg', keywords: ['baby', 'cat'] },
 ]
 
 const gSavedMemes = loadFromStorage('memes') || []
-
 let gMeme = createNewMeme()
 let gIsEditing = false
 
@@ -149,6 +147,17 @@ function deleteLine() {
 function switchTextLine() {
     if (gMeme.selectedLineIdx === gMeme.lines.length - 1) gMeme.selectedLineIdx = 0
     else gMeme.selectedLineIdx++
+}
+
+function onEditMeme(memeIndex) {
+    const savedMemes = getSavedMemes()
+    const meme = savedMemes[memeIndex]
+    gMeme = { ...meme }
+    gUploadedImg = new Image()
+    gUploadedImg.src = meme.imgDataUrl
+    gUploadedImg.onload = () => {
+        onRenderMemeEditor()
+    }
 }
 
 function editMeme(memeIndex) {

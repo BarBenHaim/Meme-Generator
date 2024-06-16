@@ -152,9 +152,9 @@
                 </div>
                 <div class="basic-tools-container">
                     <button class="btn-clear-canvas" onclick="onClearCanvas()" data-trans="clear-canvas">Clear</button>
-                    <label class="btn-action btn-upload" data-trans="upload">
-                        <span class="material-symbols-outlined">upload </span>
-                        Upload
+                    <label class="btn-action btn-upload">
+                        <span class="material-symbols-outlined">upload</span>
+                        <span data-trans="upload">Upload</span>
                         <input
                             type="file"
                             class="file-input btn"
@@ -182,6 +182,7 @@
             </div>
         </section>
         <section class="saved-memes"></section>
+        <div class="msg-modal"></div>
         <script src="js/service/util.service.js"></script>
         <script src="js/service/storage.service.js"></script>
         <script src="js/service/memeService.js"></script>

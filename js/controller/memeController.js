@@ -197,7 +197,7 @@ function onSaveMeme() {
     }
 
     saveToStorage('memes', savedMemes)
-    alert('Meme saved!')
+    showMsgModal('Meme saved successfuly!')
 }
 
 function onCanvasClick(ev) {
@@ -233,6 +233,11 @@ function onRenderSavedMemes(ev) {
     document.querySelector('.img-gallery-container').style.display = 'none'
     document.querySelector('.meme-editor-container').style.display = 'none'
     savedMemesContainer.style.display = 'grid'
+
+    if (!savedMemes || !savedMemes.length) {
+        savedMemesContainer.innerHTML = '<h2 class="no-saved-memes-txt" >No saved memes yet</h2>'
+        return
+    }
     savedMemesContainer.innerHTML = ''
     savedMemes.forEach((meme, index) => {
         const memeElement = generateMemeHTML(meme, index)
@@ -291,6 +296,14 @@ function handleTextClick(line) {
     currTextLine.focus()
 }
 
+function onDeleteMeme(memeIndex) {
+    const isConfirm = confirm('Are you sure?')
+    if (!isConfirm) return
+    deleteMeme(memeIndex)
+    onRenderSavedMemes()
+    showMsgModal('Meme deleted successfuly!')
+}
+
 function onEditMeme(memeIndex) {
     const savedMemes = getSavedMemes()
     const meme = savedMemes[memeIndex]
@@ -302,13 +315,12 @@ function onEditMeme(memeIndex) {
     }
 }
 
-function onDeleteMeme(memeIndex) {
-    const savedMemes = getSavedMemes()
-    savedMemes.splice(memeIndex, 1)
-    saveToStorage('memes', savedMemes)
-    onRenderSavedMemes()
-}
+function showMsgModal(msg) {
+    const modal = document.querySelector('.msg-modal')
+    modal.innerText = msg
+    modal.classList.add('show')
 
-function onOpenStickersModal() {
-    document.querySelector('.stickers-modal').show()
+    setTimeout(() => {
+        modal.classList.remove('show')
+    }, 3000)
 }
