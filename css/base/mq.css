@@ -1,11 +1,12 @@
 @media (max-width: 740px) {
     html {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .hamburger-menu {
         display: block;
         position: relative;
+        padding: 10px;
     }
 
     .nav-links {
@@ -53,14 +54,22 @@
     }
 
     .toolbar-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: #383b42;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        width: 100%;
+        max-width: 500px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        place-items: center;
+        gap: 8px;
+    }
+
+    .text-tools {
+        max-width: 250px;
+        place-content: center;
+        place-items: center;
+    }
+
+    .emogies-container {
+        align-self: stretch;
+        max-width: 100px;
     }
 
     .meme-editor-container {
@@ -78,18 +87,37 @@
         margin: 10px 0;
     }
 
-    .text-tools {
-        gap: 6px;
-        padding: 10px;
+    input[type='color'] {
+        width: 350px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
+    .colors-container {
+        grid-area: 3/1/4/3;
+    }
+    .text-tools {
+        gap: 5px;
+        padding: 10px;
+        grid-area: 2 /2 /2 /2;
+    }
+
+    .draggable-text {
+        grid-area: 1/1;
+    }
     .actions-container {
+        grid-area: 3/2;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         gap: 5px;
         margin: 5px;
         width: 100%;
+    }
+
+    .btn-actions-container {
+        grid-row: 2;
     }
 
     .search-container {
@@ -134,9 +162,20 @@
         padding: 10px 20px;
     }
 
+    input[type='color'] {
+        width: 100px;
+    }
+
     .text-tools {
         gap: 10px;
         padding: 20px;
+    }
+
+    .btn-clear-canvas {
+        grid-area: 3/3;
+    }
+    .basic-tools {
+        grid-area: 3/3;
     }
 
     .actions-container {
@@ -158,7 +197,4 @@
         margin-top: 0;
         display: inline-block;
     }
-}
-
-@media (min-width: 1020px) {
 }

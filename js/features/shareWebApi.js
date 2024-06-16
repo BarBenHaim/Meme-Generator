@@ -1,3 +1,5 @@
+'use strict'
+
 function canvasToBlob(canvas) {
     return new Promise((resolve, reject) => {
         canvas.toBlob(blob => {

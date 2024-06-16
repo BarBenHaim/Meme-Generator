@@ -1,3 +1,5 @@
+'use strict'
+
 function onRenderGallery(ev) {
     if (ev) ev.preventDefault()
     const memeImgs = getMemeImgs()

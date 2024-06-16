@@ -49,7 +49,6 @@ input[type='text'] {
 input[type='color'] {
     border: none;
     background: none;
-    width: 100px;
 }
 
 input[type='file'] {
@@ -105,6 +104,13 @@ input[type='number']:focus {
     box-shadow: 1px 2px 7px 0px #000000;
 }
 
+.basic-tools {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 .text-tools {
     display: flex;
     background-color: #19a59f;
@@ -135,15 +141,13 @@ input[type='number']:focus {
     background-color: #2ba7c6;
 }
 
-.basic-tools-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
+.btn-save {
+    background-color: #23af2e;
 }
 
 .btn-actions-container {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
     align-items: center;
@@ -171,10 +175,11 @@ input[type='number']:focus {
 .btn-action.btn-share {
     background-color: #1e7cd3;
 }
+
 .btn-action.btn-download {
     background-color: #8f44bb;
 }
 
-.btn-save {
-    display: inline;
+.btn-action.btn-share-meme {
+    background-color: #8350d4f3;
 }

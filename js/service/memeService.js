@@ -118,6 +118,7 @@ function setTextAlign(align) {
 
 function setFlexibleMeme() {
     gMeme = {
+        selectedImgURL: null,
         selectedImgId: getRandomInt(1, gImgs.length),
         selectedLineIdx: 0,
         lines: [_createTextLine(40, 200, 50, getRandomMemeText(), '#ffffff', '#000000', 'Impact', 'center')],
@@ -126,6 +127,10 @@ function setFlexibleMeme() {
 
 function setY(diff) {
     gMeme.lines[gMeme.selectedLineIdx].y += diff
+}
+
+function clearCanvas() {
+    gMeme = createNewMeme()
 }
 
 function filterMemes(memes, txtFilter) {
@@ -170,7 +175,7 @@ function deleteMeme(memeIndex) {
     saveToStorage('memes', gSavedMemes)
 }
 
-function _createTextLine(size = 20, x = gElCanvas.width / 2, y = gElCanvas.height / 2, txt = 'Enter text') {
+function _createTextLine(size = 40, x = gElCanvas.width / 2, y = gElCanvas.height / 2, txt = 'Enter text') {
     return {
         txt,
         size,

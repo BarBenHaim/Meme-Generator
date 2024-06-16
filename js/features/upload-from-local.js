@@ -1,5 +1,4 @@
 function onImgInput(ev) {
-    alert('hi')
     loadImageFromInput(ev, renderPersonalImg)
 }
 

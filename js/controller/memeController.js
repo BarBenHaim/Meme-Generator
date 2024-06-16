@@ -92,12 +92,10 @@ function renderImg(source, callback) {
 
 function renderMemeLines(memeLines, selectedLineIdx) {
     memeLines.forEach((line, idx) => {
-        const x = line.x
-        const y = line.y
         drawWrappedTextWithBorder(
             line.txt,
-            x,
-            y,
+            line.x,
+            line.y,
             line.size,
             line.fontColor,
             line.strokeColor,
@@ -292,7 +290,7 @@ function drawTextOnCanvas(ctx, line) {
 
 function handleTextClick(line) {
     const currTextLine = document.querySelector("input[type='text']")
-    currTextLine.value = line.txt === 'Enter text' ? '' : line.txt
+    currTextLine.value = line.txt === 'Enter text' || 'Add text' ? '' : line.txt
     currTextLine.focus()
 }
 
@@ -323,4 +321,26 @@ function showMsgModal(msg) {
     setTimeout(() => {
         modal.classList.remove('show')
     }, 3000)
+}
+
+function onKeyDown(event) {
+    if (document.querySelector('.meme-editor-container').style.display === 'none') return
+    switch (event.code) {
+        case 'ArrowUp':
+            moveLine(0, -2)
+            break
+        case 'ArrowDown':
+            moveLine(0, 2)
+            break
+        case 'ArrowLeft':
+            moveLine(-2, 0)
+            break
+        case 'ArrowRight':
+            moveLine(2, 0)
+            break
+
+        default:
+            return null
+    }
+    renderMeme()
 }

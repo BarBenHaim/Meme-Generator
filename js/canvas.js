@@ -14,11 +14,6 @@ function renderCanvas() {
 function addListeners() {
     addMouseListeners()
     addTouchListeners()
-    // window.addEventListener('resize', () => {
-    //     resizeCanvas()
-    //     renderCanvas()
-    //     renderMeme()
-    // })
 }
 
 function addMouseListeners() {
@@ -34,6 +29,7 @@ function addTouchListeners() {
 }
 
 function onClearCanvas() {
+    clearCanvas()
     gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
     renderCanvas()
 }

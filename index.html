@@ -10,8 +10,9 @@
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&family=Arimo:wght@400;700&display=swap"
         />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     </head>
-    <body onload="onInit(); applyTranslations();">
+    <body onload="onInit(); applyTranslations()" onkeydown="onKeyDown(event)" ;>
         <nav>
             <div class="logo">MEME GEN<span> .</span></div>
             <div class="hamburger-menu" onclick="toggleMenu()">☰</div>
@@ -72,6 +73,8 @@
                         onclick="onDeleteLine()"
                         title="Delete line"
                     ></i>
+
+                    <i class="fa-solid fa-save icon btn-switch-line btn-save" onclick="onSaveMeme()" title="Save"></i>
                 </div>
                 <div class="colors-container">
                     <input type="color" value="#ffffff" oninput="onSetFontColor(this.value)" title="Font color" />
@@ -83,6 +86,7 @@
                         title="Border color"
                     />
                 </div>
+
                 <div class="text-tools">
                     <button class="btn-increase-font" onclick="onFontSizeUpdate(1)" title="Increase font size">
                         <span class="material-symbols-outlined"> text_increase </span>
@@ -90,7 +94,11 @@
                     <button class="btn-decrease-font" onclick="onFontSizeUpdate(-1)" title="Decrease font size">
                         <span class="material-symbols-outlined"> text_decrease </span>
                     </button>
-                    <i class="fa-solid fa-align-left icon" onclick="onSetTextAlign('left')" title="Text align-left"></i>
+                    <i
+                        class="fa-solid fa-align-left icon"
+                        onclick="onSetTextAlign('right')"
+                        title="Text align-left"
+                    ></i>
                     <i
                         class="fa-solid fa-align-center icon"
                         onclick="onSetTextAlign('center')"
@@ -98,7 +106,7 @@
                     ></i>
                     <i
                         class="fa-solid fa-align-right icon"
-                        onclick="onSetTextAlign('right')"
+                        onclick="onSetTextAlign('left')"
                         title="Text align-right"
                     ></i>
                     <select class="select-font-family" onchange="onFontFamilyChange(this.value)" title="Font family">
@@ -150,8 +158,8 @@
                     <div class="draggable-emogi" draggable="true" ondragstart="onDragStart(event)">🙌</div>
                     <div class="draggable-emogi" draggable="true" ondragstart="onDragStart(event)">👍</div>
                 </div>
-                <div class="basic-tools-container">
-                    <button class="btn-clear-canvas" onclick="onClearCanvas()" data-trans="clear-canvas">Clear</button>
+                <button class="btn-clear-canvas" onclick="onClearCanvas()" data-trans="clear-canvas">Clear</button>
+                <div class="btn-actions-container">
                     <label class="btn-action btn-upload">
                         <span class="material-symbols-outlined">upload</span>
                         <span data-trans="upload">Upload</span>
@@ -163,10 +171,9 @@
                             accept="image/*"
                         />
                     </label>
-                    <button onclick="shareMeme()" data-trans="share-meme">Share Meme</button>
-                    <a onclick="onSaveMeme()"><span class="material-symbols-outlined btn-save">save</span></a>
-                </div>
-                <div class="btn-actions-container">
+                    <button class="btn-action btn-share-meme" onclick="shareMeme()" data-trans="share-meme">
+                        Send
+                    </button>
                     <a class="btn-action btn-share" onclick="onUploadImg()" data-trans="share">
                         <span class="material-symbols-outlined"> share</span> Share
                     </a>

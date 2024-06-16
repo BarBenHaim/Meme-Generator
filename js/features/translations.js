@@ -29,7 +29,7 @@ const translations = {
         'move-down': 'Move text down',
         'clear-canvas': 'Clear',
         upload: 'Upload',
-        'share-meme': 'Share Meme',
+        'share-meme': 'Send',
         save: 'Save',
         share: 'Share',
         download: 'Download',
