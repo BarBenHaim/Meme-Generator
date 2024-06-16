@@ -3,33 +3,47 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Meme Generator</title>
+        <title data-trans="title">Meme Generator</title>
         <link rel="stylesheet" href="css/main.css" />
         <script defer src="https://kit.fontawesome.com/0d3f998bf1.js" crossorigin="anonymous"></script>
         <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&family=Arimo:wght@400;700&display=swap"
         />
     </head>
-    <body onload="onInit()">
+    <body onload="onInit(); applyTranslations();">
         <nav>
-            <a href="#" onclick="onRenderGallery(event)">Gallery</a>
-            <a href="#" onclick="onRenderMemeEditor(event)">Meme editor</a>
-            <a href="#" onclick="onRenderSavedMemes(event)">Saved memes</a>
+            <div class="logo">MEME GEN<span> .</span></div>
+            <div class="hamburger-menu" onclick="toggleMenu()">☰</div>
+            <div class="nav-links">
+                <a href="#" onclick="onRenderGallery(event)" data-trans="nav-gallery">Gallery</a>
+                <a href="#" onclick="onRenderMemeEditor(event)" data-trans="nav-meme-editor">Meme editor</a>
+                <a href="#" onclick="onRenderSavedMemes(event)" data-trans="nav-saved-memes">Saved memes</a>
+            </div>
         </nav>
+        <select class="lng-switcher" onchange="setLang(this.value)">
+            <option value="en">English</option>
+            <option value="he">עברית</option>
+        </select>
         <section class="img-gallery-container">
             <section class="actions-container">
-                <input list="keywords" class="search-bar" onchange="onSetFilter(this.value)" placeholder="Search" />
-
-                <datalist id="keywords">
-                    <option value="funny">Funny</option>
-                    <option value="cat">Cat</option>
-                    <option value="weird">Weird</option>
-                </datalist>
-                <button class="btn-clear-filter" onclick="onClearFilter()">Clear</button>
-                <button onclick="onFlexible()">I'm flexible</button>
-
+                <div class="search-container">
+                    <input
+                        list="keywords"
+                        class="search-bar"
+                        onchange="onSetFilter(this.value)"
+                        data-trans="filter-placeholder"
+                        placeholder="Search"
+                    />
+                    <datalist id="keywords">
+                        <option value="funny">Funny</option>
+                        <option value="cat">Cat</option>
+                        <option value="weird">Weird</option>
+                    </datalist>
+                    <button class="btn-clear-filter" onclick="onClearFilter()">X</button>
+                </div>
                 <section class="keywords-search"></section>
+                <button onclick="onFlexible()" data-trans="btn-flexible" class="btn-flexible">I'm flexible</button>
             </section>
             <section class="total-results">Total results: <span>18</span></section>
             <section class="imgs-gallery"></section>
@@ -39,19 +53,33 @@
                 <canvas onclick="onCanvasClick(event)" width="400" height="400"></canvas>
             </div>
             <div class="toolbar-container">
-                <input type="text" value="" oninput="onSetLineTxt(this.value)" />
-
+                <input
+                    type="text"
+                    value=""
+                    oninput="onSetLineTxt(this.value)"
+                    data-trans="add-text"
+                    placeholder="Add text"
+                />
                 <div class="basic-tools">
-                    <i class="fa-solid fa-repeat icon btn-switch-line" onclick="onSwitchTextLine()"></i>
-                    <i class="fa-solid fa-trash-can icon btn-delete-line" onclick="onDeleteLine()"></i>
+                    <i
+                        class="fa-solid fa-repeat icon btn-switch-line"
+                        onclick="onSwitchTextLine()"
+                        title="Switch line"
+                    ></i>
+                    <i
+                        class="fa-solid fa-trash-can icon btn-delete-line"
+                        onclick="onDeleteLine()"
+                        title="Delete line"
+                    ></i>
                 </div>
                 <div class="colors-container">
-                    <input type="color" value="#ffffff" oninput="onSetFontColor(this.value)" />
+                    <input type="color" value="#ffffff" oninput="onSetFontColor(this.value)" title="Font color" />
                     <input
                         class="border-color-input"
                         type="color"
                         value="#000000"
                         oninput="onSetStrokeColor(this.value)"
+                        title="Border color"
                     />
                 </div>
                 <div class="text-tools">
@@ -62,20 +90,17 @@
                         <span class="material-symbols-outlined"> text_decrease </span>
                     </button>
                     <i class="fa-solid fa-align-left icon" onclick="onSetTextAlign('left')" title="Text align-left"></i>
-
                     <i
                         class="fa-solid fa-align-center icon"
                         onclick="onSetTextAlign('center')"
                         title="Text align-center"
                     ></i>
-
                     <i
                         class="fa-solid fa-align-right icon"
                         onclick="onSetTextAlign('right')"
                         title="Text align-right"
                     ></i>
-
-                    <select onchange="onFontFamilyChange(this.value)" title="Font family">
+                    <select class="select-font-family" onchange="onFontFamilyChange(this.value)" title="Font family">
                         <option value="Impact">IMPACT</option>
                         <option value="Arial">ARIEL</option>
                         <option value="Verdana">VERDANA</option>
@@ -89,15 +114,21 @@
                             min="1"
                             max="200"
                             oninput="onFontSizeChange(this.value)"
+                            data-trans="font-size"
                             title="Font size"
                             placeholder="Font size"
                         />
                     </label>
-
                     <i class="fa-solid fa-arrow-up icon" onclick="onSetY(-1)" title="Move text up"></i>
                     <i class="fa-solid fa-arrow-down icon" onclick="onSetY(1)" title="Move text down"></i>
                 </div>
-                <div class="draggable-text" draggable="true" onclick="onAddTextLine()" ondragstart="onDragStart(event)">
+                <div
+                    class="draggable-text"
+                    draggable="true"
+                    onclick="onAddTextLine()"
+                    ondragstart="onDragStart(event)"
+                    data-trans="add-drag-text"
+                >
                     Add text
                 </div>
                 <div class="emogies-container">
@@ -118,11 +149,9 @@
                     <div class="draggable-emogi" draggable="true" ondragstart="onDragStart(event)">🙌</div>
                     <div class="draggable-emogi" draggable="true" ondragstart="onDragStart(event)">👍</div>
                 </div>
-
                 <div class="basic-tools-container">
-                    <button class="btn-clear-canvas" onclick="onClearCanvas()">Clear</button>
-
-                    <label class="btn-action btn-upload">
+                    <button class="btn-clear-canvas" onclick="onClearCanvas()" data-trans="clear-canvas">Clear</button>
+                    <label class="btn-action btn-upload" data-trans="upload">
                         <span class="material-symbols-outlined">upload </span>
                         Upload
                         <input
@@ -133,27 +162,42 @@
                             accept="image/*"
                         />
                     </label>
-                    <a onclick="onSaveMeme()"><span class="material-symbols-outlined btn-save"> save </span> </a>
+                    <button onclick="shareMeme()" data-trans="share-meme">Share Meme</button>
+                    <a onclick="onSaveMeme()"><span class="material-symbols-outlined btn-save">save</span></a>
                 </div>
                 <div class="btn-actions-container">
-                    <a class="btn-action btn-share" onclick="onUploadImg()">
+                    <a class="btn-action btn-share" onclick="onUploadImg()" data-trans="share">
                         <span class="material-symbols-outlined"> share</span> Share
                     </a>
-                    <a class="btn-action btn-download" onclick="onDownloadImg(this)" download="my-meme.jpg"
-                        ><span class="material-symbols-outlined"> download </span> Download
+                    <a
+                        class="btn-action btn-download"
+                        onclick="onDownloadImg(this)"
+                        download="my-meme.jpg"
+                        data-trans="download"
+                    >
+                        <span class="material-symbols-outlined"> download </span> Download
                     </a>
                 </div>
             </div>
         </section>
         <section class="saved-memes"></section>
-
         <script src="js/service/util.service.js"></script>
         <script src="js/service/storage.service.js"></script>
         <script src="js/service/memeService.js"></script>
         <script src="js/canvas.js"></script>
-        <script src="js/galleryController.js"></script>
-        <script src="js/sharing-on-facebook.js"></script>
-        <script src="js/upload-from-local.js"></script>
-        <script src="js/memeController.js"></script>
+        <script src="js/controller/galleryController.js"></script>
+        <script src="js/controller/memeController.js"></script>
+        <script src="js/features/sharing-on-facebook.js"></script>
+        <script src="js/features/upload-from-local.js"></script>
+        <script src="js/features/shareWebApi.js"></script>
+        <script src="js/features/translations.js"></script>
+        <script>
+            function toggleMenu() {
+                const navLinks = document.querySelector('.nav-links')
+                const elHamburger = document.querySelector('.hamburger-menu')
+                navLinks.classList.toggle('active')
+                elHamburger.innerText = elHamburger.innerText === `☰` ? 'X' : `☰`
+            }
+        </script>
     </body>
 </html>

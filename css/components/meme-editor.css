@@ -2,7 +2,7 @@
     display: grid;
     place-content: center;
     gap: 30px;
-    background-color: #22252c;
+    background-color: #2b2f38;
     padding: 20px;
     border-radius: 10px;
 }
@@ -75,7 +75,7 @@ input[type='number']:focus {
     outline: none;
 }
 
-select {
+.select-font-family {
     font-size: 1.1em;
     border-radius: 10px;
     padding: 8px;

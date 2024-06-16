@@ -1,9 +1,10 @@
 .saved-memes {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 20px;
     padding: 10px;
     background-color: RGBA(56, 59, 66, 1);
+    place-items: center;
 }
 
 .saved-meme canvas {

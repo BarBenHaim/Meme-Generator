@@ -1,0 +1,28 @@
+.lng-switcher {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    appearance: none;
+    outline: none;
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-left: 10px;
+    opacity: 0.6;
+}
+
+.lng-switcher:hover {
+    background-color: #e0e0e0;
+    border-color: #999;
+}
+
+.lng-switcher:focus {
+    border-color: #666;
+}
+
+.lng-switcher option {
+    background: #ffffff;
+    color: #000000;
+}

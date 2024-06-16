@@ -1,24 +1,31 @@
 'use strict'
 
 const gImgs = [
-    { id: 1, url: 'img/1.jpg', keywords: ['funny', 'cat'] },
-    { id: 2, url: 'img/2.jpg', keywords: ['funny', 'cat'] },
-    { id: 3, url: 'img/3.jpg', keywords: ['funny', 'cat'] },
-    { id: 4, url: 'img/4.jpg', keywords: ['weird', 'cat'] },
-    { id: 5, url: 'img/5.jpg', keywords: ['funny', 'cat'] },
-    { id: 6, url: 'img/6.jpg', keywords: ['weird', 'cat'] },
-    { id: 7, url: 'img/7.jpg', keywords: ['funny', 'baby'] },
-    { id: 8, url: 'img/8.jpg', keywords: ['funny', 'cat'] },
-    { id: 9, url: 'img/9.jpg', keywords: ['funny', 'cat'] },
-    { id: 10, url: 'img/10.jpg', keywords: ['funny', 'weird'] },
-    { id: 11, url: 'img/11.jpg', keywords: ['funny', 'cat'] },
-    { id: 12, url: 'img/12.jpg', keywords: ['funny', 'cat'] },
-    { id: 13, url: 'img/13.jpg', keywords: ['funny', 'weird'] },
-    { id: 14, url: 'img/14.jpg', keywords: ['funny', 'cat'] },
-    { id: 15, url: 'img/15.jpg', keywords: ['funny', 'cat'] },
-    { id: 16, url: 'img/16.jpg', keywords: ['funny', 'cat'] },
-    { id: 17, url: 'img/17.jpg', keywords: ['baby', 'cat'] },
-    { id: 18, url: 'img/18.jpg', keywords: ['baby', 'cat'] },
+    { id: 1, url: 'img-hard/1.jpg', keywords: ['funny', 'cat', 'smile'] },
+    { id: 2, url: 'img-hard/2.jpg', keywords: ['funny', 'cat', 'smile'] },
+    { id: 3, url: 'img-hard/3.jpg', keywords: ['funny', 'cat', 'smile'] },
+    { id: 4, url: 'img-hard/4.jpg', keywords: ['weird', 'cat', 'baby'] },
+    { id: 5, url: 'img-hard/5.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 6, url: 'img-hard/6.jpg', keywords: ['weird', 'cat', 'animal'] },
+    { id: 7, url: 'img-hard/7.jpg', keywords: ['funny', 'baby', 'weird'] },
+    { id: 8, url: 'img-hard/8.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 9, url: 'img-hard/9.jpg', keywords: ['funny', 'cat', 'smile'] },
+    { id: 10, url: 'img-hard/10.jpg', keywords: ['funny', 'weird'] },
+    { id: 11, url: 'img-hard/11.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 12, url: 'img-hard/12.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 13, url: 'img-hard/13.jpg', keywords: ['funny', 'weird', 'cat'] },
+    { id: 14, url: 'img-hard/14.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 15, url: 'img-hard/15.jpg', keywords: ['funny', 'cat', 'weird'] },
+    { id: 16, url: 'img-hard/16.jpg', keywords: ['funny', 'cat', 'animal'] },
+    { id: 17, url: 'img-hard/17.jpg', keywords: ['baby', 'cat', 'funny'] },
+    { id: 18, url: 'img-hard/18.jpg', keywords: ['baby', 'animal', 'smile'] },
+    { id: 19, url: 'img-hard/19.jpg', keywords: ['animal', 'cat', 'smile'] },
+    { id: 20, url: 'img-hard/20.jpg', keywords: ['baby', 'cat', 'animal'] },
+    { id: 21, url: 'img-hard/21.jpg', keywords: ['baby', 'cat'] },
+    { id: 22, url: 'img-hard/22.jpg', keywords: ['baby', 'cat'] },
+    { id: 23, url: 'img-hard/23.jpg', keywords: ['baby', 'cat'] },
+    { id: 24, url: 'img-hard/24.jpg', keywords: ['baby', 'cat'] },
+    { id: 25, url: 'img-hard/25.jpg', keywords: ['baby', 'cat'] },
 ]
 
 const gSavedMemes = loadFromStorage('memes') || []
@@ -26,14 +33,14 @@ const gSavedMemes = loadFromStorage('memes') || []
 let gMeme = createNewMeme()
 let gIsEditing = false
 
-const gKeywordSearchCountMap = { funny: 20, cat: 10, baby: 15 }
+const gKeywordSearchCountMap = { funny: 20, cat: 10, baby: 15, smile: 30, animal: 5 }
 
 function createNewMeme(selectedImgId = 1) {
     return {
         selectedImgURL: null,
         selectedImgId: selectedImgId,
         selectedLineIdx: 0,
-        lines: [_createTextLine(40, 200, 50), _createTextLine(40, 200, 400)],
+        lines: [_createTextLine(40, 200, 50), _createTextLine(40, 200, 375)],
     }
 }
 
@@ -169,6 +176,13 @@ function _createTextLine(size = 20, x = gElCanvas.width / 2, y = gElCanvas.heigh
 }
 
 function saveMeme() {
+    const canvas = document.createElement('canvas')
+    canvas.width = 400
+    canvas.height = 400
+    renderMemeOnCanvas(gMeme, canvas)
+    const imgDataUrl = canvas.toDataURL()
+    gMeme.imgDataUrl = imgDataUrl
+
     if (gIsEditing) {
         const index = gSavedMemes.findIndex(meme => meme.id === gMeme.id)
         gSavedMemes[index] = JSON.parse(JSON.stringify(gMeme))
